@@ -1,7 +1,25 @@
 import './Cockpit.css'
-import React from 'react';
+import React, { useEffect } from 'react';
 
-const cockpit = (props) => {
+// useEffect  => combines functional components with class based comp. -> React Hook
+
+const Cockpit = (props) => {
+
+  useEffect(() => {
+    console.log('[Cockpit.js] useEffect');
+    // trigger when updates
+    // HTTP request...
+    setTimeout(()=>{
+      alert('Saved DATA - TEST!');
+    }, 1000);
+
+    return () => {}; 
+    // da para retornar uma função, essa função ira ser executada antes de o useEffect ser executado
+
+  }, [props.persons]) 
+  // lista de props que determina se o useEffect é triggered (change dessas props);
+  // se for necessario chamar o useEfect so da primeira vez, passar um array EMPTY []. 
+  // assim a dependicy list é vazia, log o não sera feito o trigger do useEffect
 
   // inline styling
   const styleButton = {
@@ -36,11 +54,11 @@ const cockpit = (props) => {
 
   return(
       <div className="Cockpit">
-          <h1>Hi, I'm a React App</h1>
+          <h1>{props.title}</h1>
           <p className={assignedClasses.join(' ')}>This is really working!</p>
           <button style={styleButton} onClick={props.clicked}> Toggle Persons </button>
       </div>
   );
 };
 
-export default cockpit;
+export default Cockpit;
