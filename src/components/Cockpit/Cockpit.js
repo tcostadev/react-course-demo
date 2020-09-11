@@ -1,22 +1,32 @@
 import './Cockpit.css'
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useContext } from 'react';
+import AuthContext from '../../context/auth-context';
 
 // useEffect  => combines functional components with class based comp. -> React Hook
 
 const Cockpit = (props) => {
 
+  const toggleBtnRef = useRef(null); //criar ref para o button
+
+  const authContext = useContext(AuthContext);
+
+  console.log(authContext.authenticated);
+
+  //useEffect => runs after render JSX code
   useEffect(() => {
     console.log('[Cockpit.js] useEffect');
     // trigger when updates
     // HTTP request...
-    setTimeout(()=>{
-      alert('Saved DATA - TEST!');
-    }, 1000);
+    // setTimeout(()=>{
+    //   //alert('Saved DATA - TEST!');
+    // }, 1000);
+
+    toggleBtnRef.current.click(); // click button after render JSX
 
     return () => {}; 
     // da para retornar uma função, essa função ira ser executada antes de o useEffect ser executado
 
-  }, [props.persons]) 
+  }, [props.personsLength]) 
   // lista de props que determina se o useEffect é triggered (change dessas props);
   // se for necessario chamar o useEfect so da primeira vez, passar um array EMPTY []. 
   // assim a dependicy list é vazia, log o não sera feito o trigger do useEffect
@@ -36,10 +46,10 @@ const Cockpit = (props) => {
   };
 
   let assignedClasses = [];
-  if (props.persons.length <= 2){
+  if (props.personsLength <= 2){
     assignedClasses.push('red');
   }
-  if (props.persons.length <= 1){
+  if (props.personsLength <= 1){
     assignedClasses.push('bold');
   }
  
@@ -56,9 +66,14 @@ const Cockpit = (props) => {
       <div className="Cockpit">
           <h1>{props.title}</h1>
           <p className={assignedClasses.join(' ')}>This is really working!</p>
-          <button style={styleButton} onClick={props.clicked}> Toggle Persons </button>
+          <button ref={toggleBtnRef} style={styleButton} onClick={props.clicked}> 
+            Toggle Persons 
+          </button>
+          <button onClick={authContext.login}>Log in</button>
       </div>
   );
 };
 
-export default Cockpit;
+//export default Cockpit;
+export default React.memo(Cockpit) ;
+//prevent re-render -> optimization functional components

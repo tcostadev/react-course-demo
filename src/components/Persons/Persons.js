@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Person from './Person/Person'
 
 class Persons extends Component{
@@ -11,6 +11,9 @@ class Persons extends Component{
     //   console.log('[Persons.js] componentWillReceiveProps', props);
     // }
 
+    //caso seja necessario verificar todas as props que sao recebidas neste componente para validar se é necessario fazer o update do componente ou nao
+    //é possivel utilizar o PureComponent que ja faz o check de todas as props. é so necessario fazer o import e o extends do PureComponent
+    //e assim deixa de ser utilizado o shouldComponentUpdate
     shouldComponentUpdate(nextProps, nextState) {
         console.log('[Persons.js] shouldComponentUpdate');
         // verifica se é necessario atualizar mesmo o component das Persons
@@ -22,7 +25,7 @@ class Persons extends Component{
         return { message: 'Snapshot!' };
     }
     // componentWillUpdate() {
-
+        //legacy
     // }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
